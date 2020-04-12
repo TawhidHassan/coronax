@@ -74,7 +74,7 @@ public class CountryFragment extends Fragment {
     }
 
     private void showRecyclerView() {
-        covidCountryAdapter = new CovidCountryAdapter((ArrayList<CovidCountry>) covidCountries);
+        covidCountryAdapter = new CovidCountryAdapter((ArrayList<CovidCountry>) covidCountries,getContext());
         rvCovidCountry.setAdapter(covidCountryAdapter);
         ItemClickSupport.addTo(rvCovidCountry).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
@@ -104,11 +104,16 @@ public class CountryFragment extends Fragment {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject data = jsonArray.getJSONObject(i);
+
+                            // Extract JSONObject inside JSONObject
+                            JSONObject countryInfo = data.getJSONObject("countryInfo");
+
                             covidCountries.add(new CovidCountry(
                                     data.getString("country"), data.getString("cases"),
                                     data.getString("todayCases"), data.getString("deaths"),
                                     data.getString("todayDeaths"), data.getString("recovered"),
-                                    data.getString("active"), data.getString("critical")
+                                    data.getString("active"), data.getString("critical"),
+                                    countryInfo.getString("flag")
                             ));
                         }
                         showRecyclerView();
