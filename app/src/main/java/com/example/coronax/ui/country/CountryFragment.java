@@ -1,4 +1,4 @@
-package com.example.coronax.ui.dashboard;
+package com.example.coronax.ui.country;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.coronax.R;
 
-public class DashboardFragment extends Fragment {
+public class CountryFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private CountryViewModel countryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        countryViewModel =
+                ViewModelProviders.of(this).get(CountryViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_country, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        countryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

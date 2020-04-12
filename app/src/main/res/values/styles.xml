@@ -9,18 +9,18 @@
     </style>
 
     <style name="BottomNavigationView">
-        <item name="fontFamily" />
+        <item name="fontFamily">@font/poppins</item>
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">10sp</item>
     </style>
 
     <style name="LabelFontStyle">
-        <item name="fontFamily" />
+        <item name="fontFamily">@font/poppins</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="TotalFontStyle">
-        <item name="fontFamily" />
+        <item name="fontFamily">@font/poppins_bold</item>
         <item name="android:textSize">30sp</item>
     </style>
 
