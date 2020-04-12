@@ -60,7 +60,9 @@ public class CountryFragment extends Fragment {
         progressBar = root.findViewById(R.id.progress_circular_country);
         rvCovidCountry.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvCovidCountry.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
+        rvCovidCountry.addItemDecoration(dividerItemDecoration);
 
         //call list
         covidCountries = new ArrayList<>();
@@ -74,10 +76,20 @@ public class CountryFragment extends Fragment {
     private void showRecyclerView() {
         covidCountryAdapter = new CovidCountryAdapter((ArrayList<CovidCountry>) covidCountries);
         rvCovidCountry.setAdapter(covidCountryAdapter);
+        ItemClickSupport.addTo(rvCovidCountry).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                showSelectedCovidCountry(covidCountries.get(position));
+            }
+        });
 
     }
 
-
+    private void showSelectedCovidCountry(CovidCountry covidCountry) {
+        Intent covidCovidCountryDetail = new Intent(getActivity(), CovidCountryDetail.class);
+        covidCovidCountryDetail.putExtra("EXTRA_COVID", covidCountry);
+        startActivity(covidCovidCountryDetail);
+    }
 
     private void getDataFromServerSortTotalCases() {
         String url = "https://corona.lmao.ninja/v2/countries";
@@ -92,7 +104,12 @@ public class CountryFragment extends Fragment {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject data = jsonArray.getJSONObject(i);
-                            covidCountries.add(new CovidCountry(data.getString("country"), data.getString("cases")));
+                            covidCountries.add(new CovidCountry(
+                                    data.getString("country"), data.getString("cases"),
+                                    data.getString("todayCases"), data.getString("deaths"),
+                                    data.getString("todayDeaths"), data.getString("recovered"),
+                                    data.getString("active"), data.getString("critical")
+                            ));
                         }
                         showRecyclerView();
                     } catch (JSONException e) {
